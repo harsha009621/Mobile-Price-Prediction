@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Success | Dynamic Price Prediction</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-bg: #0b0f14;
+      --secondary-bg: #151a21;
+      --accent-color: #00ff9c;
+      --text-light: #eafff7;
+      --subtle-text: #7fa9a0;
+      --success: #00ff9c;
+    }
+
+    body {
+      margin: 0;
+      padding-top: 6rem;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--primary-bg);
+      color: var(--text-light);
+      min-height: 100vh;
+      background-image:
+        radial-gradient(circle at top left, rgba(0,255,156,0.12), transparent 40%),
+        radial-gradient(circle at bottom right, rgba(0,255,156,0.12), transparent 40%);
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(21, 26, 33, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 2px solid rgba(0,255,156,0.4);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    nav a {
+      color: var(--text-light);
+      text-decoration: none;
+      margin-left: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--accent-color);
+      background-color: rgba(0,255,156,0.15);
+      border-radius: 4px;
+    }
+
+    /* Content */
+    .content {
+      min-height: calc(100vh - 6rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      animation: fadeInUp 1.2s ease forwards;
+      opacity: 0;
+    }
+
+    .tick {
+      font-size: 4.5rem;
+      color: var(--success);
+      margin-bottom: 1rem;
+      animation: pop 0.8s ease forwards;
+    }
+
+    .content h4 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(to right, #6affc9, var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    hr {
+      width: 50%;
+      border: 1px solid rgba(0,255,156,0.4);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.6); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .content h4 {
+        font-size: 1.3rem;
+      }
+      .tick {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'register' %}">Register</a>
+    <a href="{% url 'admin_view' %}">Admin</a>
+  </nav>
+
+  <!-- Success Content -->
+  <div class="content">
+    <div class="tick">✔</div>
+    <h4>Registration Successfully Completed</h4>
+    <hr>
+  </div>
+
+</body>
+</html>

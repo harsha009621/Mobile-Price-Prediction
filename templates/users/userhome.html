@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dynamic Price Prediction</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary-bg: #0b0f14;
+      --secondary-bg: #151a21;
+      --accent-color: #00ff9c;
+      --text-light: #eafff7;
+      --subtle-text: #7fa9a0;
+    }
+
+    body {
+      margin: 0;
+      padding-top: 6rem;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--primary-bg);
+      color: var(--text-light);
+      min-height: 100vh;
+      background-image:
+        radial-gradient(circle at top left, rgba(0,255,156,0.12), transparent 40%),
+        radial-gradient(circle at bottom right, rgba(0,255,156,0.12), transparent 40%);
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: rgba(21, 26, 33, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 2px solid rgba(0,255,156,0.4);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    nav a {
+      color: var(--text-light);
+      text-decoration: none;
+      margin-left: 1rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: var(--accent-color);
+      background-color: rgba(0,255,156,0.15);
+      border-radius: 4px;
+    }
+
+    /* Content */
+    .content {
+      min-height: calc(100vh - 6rem);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    /* Heading */
+    .heading {
+      font-size: 2.3rem;
+      font-weight: 900;
+      margin-bottom: 2.5rem;
+      background: linear-gradient(to right, #6affc9, var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: fadeInDown 1.2s ease forwards;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Card */
+    .container {
+      background-color: var(--secondary-bg);
+      padding: 3rem;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 650px;
+      box-shadow: 0 0 40px rgba(0,255,156,0.25);
+      animation: fadeInUp 1.2s ease forwards;
+      opacity: 0;
+    }
+
+    .container h4 {
+      font-size: 1.05rem;
+      color: var(--subtle-text);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Buttons */
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      background-color: var(--accent-color);
+      color: var(--primary-bg);
+      text-decoration: none;
+      padding: 12px 32px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 8px 30px rgba(0,255,156,0.6);
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #00cc7d;
+      color: #ffffff;
+      transform: translateY(-4px);
+      box-shadow: 0 14px 45px rgba(0,255,156,0.9);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .heading {
+        font-size: 1.8rem;
+      }
+
+      .container {
+        padding: 2rem 1.5rem;
+      }
+
+      .btn {
+        padding: 10px 24px;
+        font-size: 0.85rem;
+      }
+    }
+    /* ===== NAVBAR (FINAL & STABLE) ===== */
+/* ===== COMPACT NAVBAR (NO OVERFLOW) ===== */
+.custom-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 64px;
+    background-color: rgba(21, 26, 33, 0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid rgba(0,255,156,0.4);
+    padding: 0 1rem;              /* 🔹 reduced */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+/* Brand */
+.navbar-brand {
+    font-size: 1.05rem;           /* 🔹 reduced */
+    font-weight: 800;
+    letter-spacing: 1px;          /* 🔹 reduced */
+    color: var(--text-light);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+/* Links container */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;                  /* 🔹 replaces margin-left */
+}
+
+/* Individual links */
+.nav-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 0.35rem 0.6rem;      /* 🔹 reduced */
+    font-size: 0.75rem;           /* 🔹 reduced */
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+    background-color: rgba(0,255,156,0.15);
+    border-radius: 4px;
+}
+
+/* Extra safety for very small screens */
+@media (max-width: 480px) {
+    .navbar-brand {
+        font-size: 0.95rem;
+    }
+
+    .nav-links a {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.45rem;
+    }
+}
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+ <nav class="custom-navbar">
+    <a href="{% url 'home' %}" class="navbar-brand">PRICE-PREDICT</a>
+
+    <div class="nav-links">
+        <a href="{% url 'dashboard' %}">Home</a>
+        <a href="{% url 'training' %}">Training</a>
+        <a href="{% url 'prediction' %}">Prediction</a>
+        <a href="{% url 'home' %}">Logout</a>
+    </div>
+</nav>
+
+  <!-- Main Content -->
+  <div class="content">
+    <h3 class="heading">Welcome to Dynamic Price Prediction</h3>
+
+    <div class="container">
+      <h4>
+        Leverage machine learning to analyze market data and predict product prices dynamically.
+        Choose an option below to train the model or generate real-time price predictions.
+      </h4>
+
+     
+    </div>
+  </div>
+
+</body>
+</html>

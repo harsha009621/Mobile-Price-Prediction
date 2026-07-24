@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Train Model | Dynamic Price Prediction</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-bg: #0b0f14;
+            --secondary-bg: #151a21;
+            --accent-color: #00ff9c;
+            --text-light: #eafff7;
+            --subtle-text: #7fa9a0;
+            --danger: #ff4d4d;
+        }
+
+        body {
+            margin: 0;
+            padding-top: 6rem;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-light);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(circle at top left, rgba(0,255,156,0.12), transparent 40%),
+                radial-gradient(circle at bottom right, rgba(0,255,156,0.12), transparent 40%);
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(21, 26, 33, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid rgba(0,255,156,0.4);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin-left: 1rem;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+            background-color: rgba(0,255,156,0.15);
+            border-radius: 4px;
+        }
+
+        /* Container */
+        .content {
+            min-height: calc(100vh - 6rem);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .card {
+            background-color: var(--secondary-bg);
+            width: 100%;
+            max-width: 600px;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 0 40px rgba(0,255,156,0.25);
+            animation: fadeInUp 1.2s ease forwards;
+            opacity: 0;
+            text-align: center;
+        }
+
+        .card h2 {
+            font-weight: 900;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, #6affc9, var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Button */
+        button {
+            background-color: var(--accent-color);
+            color: var(--primary-bg);
+            border: 2px solid var(--accent-color);
+            padding: 0.9rem 2.5rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 6px;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(0,255,156,0.6);
+            transition: 0.3s;
+            margin-bottom: 2rem;
+        }
+
+        button:hover {
+            background-color: #00cc7d;
+            color: #ffffff;
+            transform: scale(1.05);
+            box-shadow: 0 14px 45px rgba(0,255,156,0.9);
+        }
+
+        /* Error */
+        .error {
+            color: var(--danger);
+            font-weight: 600;
+            margin: 1rem 0;
+        }
+
+        /* Metrics */
+        .metrics {
+            text-align: left;
+            margin-top: 1.5rem;
+        }
+
+        .metrics h3 {
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .metrics ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .metrics li {
+            background-color: var(--primary-bg);
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            margin-bottom: 0.8rem;
+            border-left: 4px solid var(--accent-color);
+            font-size: 0.95rem;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 2rem 1.5rem;
+            }
+        }
+        /* ===== COMPACT NAVBAR (NO OVERFLOW) ===== */
+.custom-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 64px;
+    background-color: rgba(21, 26, 33, 0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid rgba(0,255,156,0.4);
+    padding: 0 1rem;          /* reduced padding */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+/* Brand */
+.navbar-brand {
+    font-size: 1.05rem;       /* reduced */
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--text-light);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+/* Links container */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;              /* compact spacing */
+}
+
+/* Links */
+.nav-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 0.35rem 0.6rem;  /* reduced */
+    font-size: 0.75rem;       /* reduced */
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: 0.3s;
+    white-space: nowrap;
+}
+
+.nav-links a:hover {
+    color: var(--accent-color);
+    background-color: rgba(0,255,156,0.15);
+    border-radius: 4px;
+}
+
+/* Extra safety for very small screens */
+@media (max-width: 480px) {
+    .navbar-brand {
+        font-size: 0.95rem;
+    }
+
+    .nav-links a {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.45rem;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+  <nav class="custom-navbar">
+    <a href="{% url 'dashboard' %}" class="navbar-brand">PRICE-PREDICT</a>
+
+    <div class="nav-links">
+        <a href="{% url 'dashboard' %}">Home</a>
+        <a href="{% url 'prediction' %}">Prediction</a>
+        <a href="{% url 'home' %}">Logout</a>
+    </div>
+</nav>
+
+
+    <!-- Content -->
+    <div class="content">
+        <div class="card">
+
+            <h2>📊 Train Mobile Price Prediction Model</h2>
+
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit">Train Model</button>
+            </form>
+
+            {% if error %}
+                <div class="error">ERROR: {{ error }}</div>
+            {% endif %}
+
+            {% if metrics %}
+            <div class="metrics">
+                <h3>Training Metrics</h3>
+                <ul>
+                    <li><b>MAE:</b> {{ metrics.mae }}</li>
+                    <li><b>RMSE:</b> {{ metrics.rmse }}</li>
+                    <li><b>R² Score:</b> {{ metrics.r2 }}</li>
+                </ul>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+</body>
+</html>
