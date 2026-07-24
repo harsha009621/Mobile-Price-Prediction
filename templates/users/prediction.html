@@ -1,253 +1,295 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mobile Price Prediction</title>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Mobile Price Prediction</title>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+		<style>
+			:root {
+				--primary-bg: #0b0f14;
+				--secondary-bg: #151a21;
+				--accent-color: #00ff9c;
+				--text-light: #eafff7;
+				--subtle-text: #7fa9a0;
+			}
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+				font-family: 'Poppins', sans-serif;
+			}
 
-<style>
-:root {
-    --primary-bg: #0b0f14;
-    --secondary-bg: #151a21;
-    --accent-color: #00ff9c;
-    --text-light: #eafff7;
-    --subtle-text: #7fa9a0;
-}
+			body {
+				padding-top: 6rem;
+				background-color: var(--primary-bg);
+				color: var(--text-light);
+				min-height: 100vh;
+				background-image: radial-gradient(circle at top left, rgba(0,255,156,0.12), transparent 40%),
+					radial-gradient(circle at bottom right, rgba(0,255,156,0.12), transparent 40%);
+			}
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
+			/* NAVBAR */
+			.custom-navbar {
+				position: fixed;
+				top: 0;
+				width: 100%;
+				height: 64px;
+				background-color: rgba(21, 26, 33, 0.96);
+				backdrop-filter: blur(12px);
+				border-bottom: 2px solid rgba(0,255,156,0.4);
+				padding: 0 1rem;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				z-index: 1000;
+			}
 
-body {
-    padding-top: 6rem;
-    background-color: var(--primary-bg);
-    color: var(--text-light);
-    min-height: 100vh;
-    background-image:
-        radial-gradient(circle at top left, rgba(0,255,156,0.12), transparent 40%),
-        radial-gradient(circle at bottom right, rgba(0,255,156,0.12), transparent 40%);
-}
+			.navbar-brand {
+				font-size: 1.05rem;
+				font-weight: 800;
+				color: var(--text-light);
+				text-decoration: none;
+			}
 
-/* NAVBAR */
-.custom-navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 64px;
-    background-color: rgba(21, 26, 33, 0.96);
-    backdrop-filter: blur(12px);
-    border-bottom: 2px solid rgba(0,255,156,0.4);
-    padding: 0 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 1000;
-}
+			.nav-links {
+				display: flex;
+				gap: 0.4rem;
+			}
 
-.navbar-brand {
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: var(--text-light);
-    text-decoration: none;
-}
+			.nav-links a {
+				color: var(--text-light);
+				text-decoration: none;
+				padding: 0.35rem 0.6rem;
+				font-size: 0.75rem;
+				font-weight: 600;
+				text-transform: uppercase;
+				transition: 0.3s;
+			}
 
-.nav-links {
-    display: flex;
-    gap: 0.4rem;
-}
+			.nav-links a:hover {
+				color: var(--accent-color);
+				background-color: rgba(0,255,156,0.15);
+				border-radius: 4px;
+			}
 
-.nav-links a {
-    color: var(--text-light);
-    text-decoration: none;
-    padding: 0.35rem 0.6rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    transition: 0.3s;
-}
+			/* CARD */
+			.container {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 40px;
+			}
 
-.nav-links a:hover {
-    color: var(--accent-color);
-    background-color: rgba(0,255,156,0.15);
-    border-radius: 4px;
-}
+			.card {
+				background-color: var(--secondary-bg);
+				padding: 40px;
+				border-radius: 16px;
+				width: 520px;
+				box-shadow: 0 0 40px rgba(0,255,156,0.25);
+			}
 
-/* CARD */
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-}
+			h2 {
+				text-align: center;
+				margin-bottom: 30px;
+				font-weight: 700;
+				background: linear-gradient(to right, #6affc9, var(--accent-color));
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
 
-.card {
-    background-color: var(--secondary-bg);
-    padding: 40px;
-    border-radius: 16px;
-    width: 520px;
-    box-shadow: 0 0 40px rgba(0,255,156,0.25);
-}
+			label {
+				font-size: 13px;
+				color: var(--subtle-text);
+			}
 
-h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-weight: 700;
-    background: linear-gradient(to right, #6affc9, var(--accent-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
+			input,
+			select {
+				width: 100%;
+				padding: 10px;
+				margin-top: 6px;
+				margin-bottom: 18px;
+				border-radius: 8px;
+				border: none;
+				background-color: #0e1319;
+				color: white;
+			}
 
-label {
-    font-size: 13px;
-    color: var(--subtle-text);
-}
+			button {
+				width: 100%;
+				padding: 12px;
+				border-radius: 8px;
+				border: none;
+				background: var(--accent-color);
+				color: var(--primary-bg);
+				font-weight: 700;
+				cursor: pointer;
+			}
 
-input, select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 6px;
-    margin-bottom: 18px;
-    border-radius: 8px;
-    border: none;
-    background-color: #0e1319;
-    color: white;
-}
+			button:hover {
+				background: #00cc7d;
+			}
 
-button {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: none;
-    background: var(--accent-color);
-    color: var(--primary-bg);
-    font-weight: 700;
-    cursor: pointer;
-}
+			.result-box {
+				margin-top: 25px;
+				padding: 20px;
+				background: rgba(0,255,156,0.1);
+				border-left: 5px solid var(--accent-color);
+				border-radius: 10px;
+				text-align: center;
+			}
 
-button:hover {
-    background: #00cc7d;
-}
+			.error-box {
+				margin-top: 20px;
+				padding: 15px;
+				background: rgba(255, 0, 0, 0.15);
+				border-left: 5px solid red;
+				border-radius: 10px;
+			}
+		</style>
+	</head>
 
-.result-box {
-    margin-top: 25px;
-    padding: 20px;
-    background: rgba(0,255,156,0.1);
-    border-left: 5px solid var(--accent-color);
-    border-radius: 10px;
-    text-align: center;
-}
+	<body>
+		<nav class="custom-navbar">
+			<a href="{% url 'home' %}" class="navbar-brand">PRICE-PREDICT</a>
+			<div class="nav-links">
+				<a href="{% url 'dashboard' %}">Home</a>
+				<a href="{% url 'training' %}">Training</a>
+				<a href="{% url 'prediction' %}">Prediction</a>
+				<a href="{% url 'home' %}">Logout</a>
+			</div>
+		</nav>
 
-.error-box {
-    margin-top: 20px;
-    padding: 15px;
-    background: rgba(255, 0, 0, 0.15);
-    border-left: 5px solid red;
-    border-radius: 10px;
-}
-</style>
-</head>
+		<div class="container">
+			<div class="card">
+				<h2>Mobile Price Prediction</h2>
 
-<body>
+				<form method="post">
+					{% csrf_token %}
 
-<nav class="custom-navbar">
-    <a href="{% url 'home' %}" class="navbar-brand">PRICE-PREDICT</a>
-    <div class="nav-links">
-        <a href="{% url 'dashboard' %}">Home</a>
-        <a href="{% url 'training' %}">Training</a>
-        <a href="{% url 'prediction' %}">Prediction</a>
-        <a href="{% url 'home' %}">Logout</a>
-    </div>
-</nav>
+					<label>Product Name</label>
+					<input
+						type="text"
+						name="Product_Name"
+						list="product-name-options"
+						required
+						value="{{ form_data.Product_Name|default:'' }}"
+						placeholder="Type or select product name"
+					>
+					<datalist id="product-name-options">
+						{% for item in product_name_options %}
+						<option value="{{ item }}"></option>
+						{% endfor %}
+					</datalist>
 
-<div class="container">
-<div class="card">
+					<label>RAM / ROM</label>
+					<input
+						type="text"
+						name="RAM_ROM"
+						list="ram-rom-options"
+						required
+						value="{{ form_data.RAM_ROM|default:'' }}"
+						placeholder="Type or select RAM/ROM"
+					>
+					<datalist id="ram-rom-options">
+						{% for item in ram_rom_options %}
+						<option value="{{ item }}"></option>
+						{% endfor %}
+					</datalist>
 
-<h2>Mobile Price Prediction</h2>
+					<label>Display</label>
+					<input
+						type="text"
+						name="Display"
+						list="display-options"
+						required
+						value="{{ form_data.Display|default:'' }}"
+						placeholder="Type or select display"
+					>
+					<datalist id="display-options">
+						{% for item in display_options %}
+						<option value="{{ item }}"></option>
+						{% endfor %}
+					</datalist>
 
-<form method="post">
-{% csrf_token %}
+					<label>Camera</label>
+					<input
+						type="text"
+						name="Camera"
+						list="camera-options"
+						required
+						value="{{ form_data.Camera|default:'' }}"
+						placeholder="Type or select camera setup"
+					>
+					<datalist id="camera-options">
+						{% for item in camera_options %}
+						<option value="{{ item }}"></option>
+						{% endfor %}
+					</datalist>
 
-<label>Product Name</label>
-<input type="text" name="Product_Name" list="product-name-options" required value="{{ form_data.Product_Name|default:'' }}" placeholder="Type or select product name">
-<datalist id="product-name-options">
-{% for item in product_name_options %}
-<option value="{{ item }}"></option>
-{% endfor %}
-</datalist>
+					<label>Battery</label>
+					<input
+						type="text"
+						name="Battery"
+						list="battery-options"
+						required
+						value="{{ form_data.Battery|default:'' }}"
+						placeholder="Type or select battery capacity"
+					>
+					<datalist id="battery-options">
+						{% for item in battery_options %}
+						<option value="{{ item }}"></option>
+						{% endfor %}
+					</datalist>
 
-<label>RAM / ROM</label>
-<input type="text" name="RAM_ROM" list="ram-rom-options" required value="{{ form_data.RAM_ROM|default:'' }}" placeholder="Type or select RAM/ROM">
-<datalist id="ram-rom-options">
-{% for item in ram_rom_options %}
-<option value="{{ item }}"></option>
-{% endfor %}
-</datalist>
+					<label>Processor</label>
+					<input
+						type="text"
+						name="Processor"
+						list="processor-options"
+						required
+						value="{{ form_data.Processor|default:'' }}"
+						placeholder="Type or select processor"
+					>
+					<datalist id="processor-options">
+						{% for item in processor_options %}
+						<option value="{{ item }}"></option>
+						{% endfor %}
+					</datalist>
 
-<label>Display</label>
-<input type="text" name="Display" list="display-options" required value="{{ form_data.Display|default:'' }}" placeholder="Type or select display">
-<datalist id="display-options">
-{% for item in display_options %}
-<option value="{{ item }}"></option>
-{% endfor %}
-</datalist>
+					<label>Rating</label>
+					<input
+						type="text"
+						name="Rating"
+						list="rating-options"
+						required
+						value="{{ form_data.Rating|default:'' }}"
+						placeholder="Type or select rating"
+					>
+					<datalist id="rating-options">
+						{% for item in rating_options %}
+						<option value="{{ item }}"></option>
+						{% endfor %}
+					</datalist>
 
-<label>Camera</label>
-<input type="text" name="Camera" list="camera-options" required value="{{ form_data.Camera|default:'' }}" placeholder="Type or select camera setup">
-<datalist id="camera-options">
-{% for item in camera_options %}
-<option value="{{ item }}"></option>
-{% endfor %}
-</datalist>
+					<button type="submit">Predict Price</button>
+				</form>
 
-<label>Battery</label>
-<input type="text" name="Battery" list="battery-options" required value="{{ form_data.Battery|default:'' }}" placeholder="Type or select battery capacity">
-<datalist id="battery-options">
-{% for item in battery_options %}
-<option value="{{ item }}"></option>
-{% endfor %}
-</datalist>
+				{% if prediction %}
+				<div class="result-box">
+					<h3>Predicted Price</h3>
+					<h2>Rs {{ prediction }}</h2>
+				</div>
+				{% endif %}
 
-<label>Processor</label>
-<input type="text" name="Processor" list="processor-options" required value="{{ form_data.Processor|default:'' }}" placeholder="Type or select processor">
-<datalist id="processor-options">
-{% for item in processor_options %}
-<option value="{{ item }}"></option>
-{% endfor %}
-</datalist>
-
-<label>Rating</label>
-<input type="text" name="Rating" list="rating-options" required value="{{ form_data.Rating|default:'' }}" placeholder="Type or select rating">
-<datalist id="rating-options">
-{% for item in rating_options %}
-<option value="{{ item }}"></option>
-{% endfor %}
-</datalist>
-
-<button type="submit">Predict Price</button>
-
-</form>
-
-{% if prediction %}
-<div class="result-box">
-<h3>Predicted Price</h3>
-<h2>Rs {{ prediction }}</h2>
-</div>
-{% endif %}
-
-{% if error %}
-<div class="error-box">
-Error: {{ error }}
-</div>
-{% endif %}
-
-</div>
-</div>
-
-</body>
+				{% if error %}
+				<div class="error-box">
+					Error: {{ error }}
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</body>
 </html>
